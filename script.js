@@ -5,14 +5,17 @@ class Calculator{
     }
 
     clear() {
-        this.current = '';
+        this.current = 0;
         this.previous = '';
-        this.operator = undefined;
+        this.operator = '';
 
     }
 
-    delte() {
-
+    delete() {
+        this.current = this.current.toString().slice(0, -1)
+        if (this.current.length < 1) {
+            this.current = ''
+        }
     }
 
     append(number) {
@@ -22,8 +25,6 @@ class Calculator{
         } else {
             this.current = number.toString()
         }
-        
-    
     }
 
     operation(operation) {
@@ -58,18 +59,16 @@ class Calculator{
                 return
         }
         this.current = computation;
-        this.operator = undefinde;
-        previous = ''
+        this.operator = '';
+        this.previous = '';
     }
     update() {
         currentText.innerText = this.current;
-        previousText.innerText = this.previous;
-        
+        if(this.operator !== null) {
+            previousText.innerText = this.previous + this.operator;
+        }
     }
 }
-
-
-
 
 
 const numberButtons = document.querySelectorAll('[data-number]')
@@ -96,7 +95,6 @@ operationButtons.forEach(button => {
     })
 })
 
-
 equalsButton.addEventListener('click', button => {
     calculator.compute();
     calculator.update();
@@ -104,5 +102,10 @@ equalsButton.addEventListener('click', button => {
 
 clearButton.addEventListener('click', button => {
     calculator.clear();
+    calculator.update();
+})
+
+deleteButton.addEventListener('click', button => {
+    calculator.delete();
     calculator.update();
 })
